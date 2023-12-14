@@ -38,7 +38,6 @@ stack_t *createNode(int n)
 
 /**
  * nodes_free - Frees nodes in the stack.
- * @head: Pointer to the top node of the stack.
  *
  * Description: Frees all nodes in the stack starting from the provided head.
  */
@@ -59,7 +58,6 @@ void nodes_free(void)
 
 /**
  * addToQueue - Adds a node to the queue.
- * @head: Pointer to the top node of the stack.
  * @newNode: Pointer to the new node.
  * @ln: Line number of the opcode (unused)
  *
