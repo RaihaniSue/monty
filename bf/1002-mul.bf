@@ -1,39 +1,15 @@
-Read from stdin
->, >, <<   # Reading two integers into cells
-
-Convert to integer
-+++++ +     # Setting up divisor for ASCII to integer conversion
-[
- >----- --- # Converting first input to integer (subtracting '0')
- >----- ---
- <<-
+++++[>++++[>+++<-]<-]    # Stores 48 ('0' in ASCII) in cell(2)
+,>,>                     # Reads two numbers into cell(0) and cell(1)
+[<-<->>-]                # Converts input numbers to integer values (subtract '0')
+<<                       # Move to cell(0)
+[                        # Multiplication loop
+    >                    # Move to cell(1)
+    [>+>+<<-]            # Copy cell(1) to cell(2) and cell(3)
+    >>                   # Move to cell(3)
+    [<<+>>-]             # Move cell(3) back to cell(1)
+    <<<-                 # Decrement cell(0)
 ]
+>[-]<                    # Reset cell(1) to 0 (used as counter, currently in cell(0))
+++++[>++++[>+++<-]<-]    # Adds 48 ('0' in ASCII) to cell(2), result is in cell(2)
+>>.                      # Print the result (go to cell(2) and print)
 
-Multiply two integers
->[
- >[>+>+<<-] # Multiplication algorithm: result in cells 1 and 2
- >[<+>-]    # Moving the multiplied result to cell 1
- <<-
-]
-
-Separate two digits inputted
->[-]>+> >+++++ +++++<  # Separating input digits by 10
-
-[
- - >- [>>>]+++++ +++++<<+  # Calculating the tens place digit
- [<<<]>>>>
-]
-<-
-<+++++ +++++>>>[-<<<->>>]<<<  # Reconstructing the separated digits
-
-Convert to ASCII
-<+++++ +   # Setting up for ASCII conversion
-[
- >+++++ +++>  # Converting result to ASCII character
- [+++++ +++>]
- <[<]>-   # Cleaning up
-]
-
-Print with newline
->>[.<<]<[<<]>>.  # Printing the result with newline
->>,.
