@@ -1,5 +1,5 @@
 #include "monty.h"
-
+stack_t *head = NULL;
 /**
  * main - Entry point of the program
  * @argc: Argument count
@@ -8,15 +8,13 @@
  */
 int main(int argc, char *argv[])
 {
-	stack_t *head = NULL;
-
 	if (argc != 2)
 	{
 		fprintf(stderr, "USAGE: monty file\n");
 		exit(EXIT_FAILURE);
 	}
-	openFile(argv[1], &head);
-	freeNodes(&head);
+	openFile(argv[1]);
+	nodes_free();
 	return (0);
 }
 
@@ -31,7 +29,7 @@ stack_t *createNode(int n)
 
 	node = malloc(sizeof(stack_t));
 	if (node == NULL)
-		err(4);
+		report_error(4);
 	node->next = NULL;
 	node->prev = NULL;
 	node->n = n;
@@ -39,22 +37,22 @@ stack_t *createNode(int n)
 }
 
 /**
- * freeNodes - Frees nodes in the stack.
+ * nodes_free - Frees nodes in the stack.
  * @head: Pointer to the top node of the stack.
  *
  * Description: Frees all nodes in the stack starting from the provided head.
  */
-void freeNodes(stack_t **head)
+void nodes_free(void)
 {
 	stack_t *tmp;
 
-	if (*head == NULL)
+	if (head == NULL)
 		return;
 
-	while (*head != NULL)
+	while (head != NULL)
 	{
-		tmp = *head;
-		*head = (*head)->next;
+		tmp = head;
+		head = (head)->next;
 		free(tmp);
 	}
 }
@@ -67,19 +65,18 @@ void freeNodes(stack_t **head)
  *
  * Description: Adds a new node to the queue starting from the provided head.
  */
-void addToQueue(stack_t **head, stack_t **newNode,
-		__attribute__((unused)) unsigned int ln)
+void addToQueue(stack_t **newNode, __attribute__((unused)) unsigned int ln)
 {
 	stack_t *tmp;
 
 	if (newNode == NULL || *newNode == NULL)
 		exit(EXIT_FAILURE);
-	if (*head == NULL)
+	if (head == NULL)
 	{
-		*head = *newNode;
+		head = *newNode;
 		return;
 	}
-	tmp = *head;
+	tmp = head;
 	while (tmp->next != NULL)
 		tmp = tmp->next;
 

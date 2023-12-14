@@ -52,7 +52,7 @@ void removeTopNode(stack_t **stack, unsigned int lineNumber)
 	stack_t *temp;
 
 	if (stack == NULL || *stack == NULL)
-		moreError(7, lineNumber);
+		more_error(7, lineNumber);
 
 	temp = *stack;
 	*stack = temp->next;
@@ -69,6 +69,6 @@ void removeTopNode(stack_t **stack, unsigned int lineNumber)
 void printTopValue(stack_t **stack, unsigned int lineNumber)
 {
 	if (stack == NULL || *stack == NULL)
-		moreError(6, lineNumber);
+		more_error(6, lineNumber);
 	printf("%d\n", (*stack)->n);
 }

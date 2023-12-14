@@ -10,7 +10,7 @@ void multiplyNodes(stack_t **stack, unsigned int lineNumber)
 	int product;
 
 	if (stack == NULL || *stack == NULL || (*stack)->next == NULL)
-		moreError(8, lineNumber, "mul");
+		more_error(8, lineNumber, "mul");
 
 	(*stack) = (*stack)->next;
 	product = (*stack)->n * (*stack)->prev->n;
@@ -29,10 +29,10 @@ void moduloNodes(stack_t **stack, unsigned int lineNumber)
 	int remainder;
 
 	if (stack == NULL || *stack == NULL || (*stack)->next == NULL)
-		moreError(8, lineNumber, "mod");
+		more_error(8, lineNumber, "mod");
 
 	if ((*stack)->n == 0)
-		moreError(9, lineNumber);
+		more_error(9, lineNumber);
 
 	(*stack) = (*stack)->next;
 	remainder = (*stack)->n % (*stack)->prev->n;

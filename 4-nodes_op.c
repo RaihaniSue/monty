@@ -10,11 +10,11 @@ void printAscii(stack_t **stack, unsigned int lineNumber)
 	int ascii;
 
 	if (stack == NULL || *stack == NULL)
-		stringError(11, lineNumber);
+		string_error(11, lineNumber);
 
 	ascii = (*stack)->n;
 	if (ascii < 0 || ascii > 127)
-		stringError(10, lineNumber);
+		string_error(10, lineNumber);
 	printf("%c\n", ascii);
 }
 

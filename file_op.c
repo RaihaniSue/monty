@@ -1,5 +1,4 @@
 #include "monty.h"
-
 /**
  * openFile - Opens a file
  * @fileName: The file's path
@@ -10,7 +9,7 @@ void openFile(char *fileName)
 	FILE *fileDescriptor = fopen(fileName, "r");
 
 	if (fileName == NULL || fileDescriptor == NULL)
-		err(2, fileName);
+		report_error(2, fileName);
 
 	readFile(fileDescriptor);
 	fclose(fileDescriptor);
@@ -25,15 +24,13 @@ void readFile(FILE *fileDesc)
 {
 	int lineNum = 1;
 	int format = 0;
-	char *buffer = NULL;
-	size_t length = 0;
+	char buffer[BUFSIZ];
 
-	while (getline(&buffer, &length, fileDesc) != -1)
+	while (fgets(buffer, sizeof(buffer), fileDesc) != NULL)
 	{
 		format = parseLine(buffer, lineNum, format);
 		lineNum++;
 	}
-	free(buffer);
 }
 
 /**
@@ -50,7 +47,7 @@ int parseLine(char *buff, int lineNum, int fmt)
 	const char *delim = "\n ";
 
 	if (buff == NULL)
-		err(4);
+		report_error(4);
 
 	opcode = strtok(buff, delim);
 	if (opcode == NULL)
@@ -80,21 +77,21 @@ void findFunction(char *op, char *value, int ln, int fmt)
 	int flag = 1;
 
 	instruction_t functions[] = {
-		{"push", addToStack},
-		{"pall", printStack},
-		{"pint", printTop},
-		{"pop", popTop},
-		{"nop", noOperation},
-		{"swap", swapNodes},
-		{"add", addNodes},
-		{"sub", subNodes},
-		{"div", divNodes},
-		{"mul", mulNodes},
-		{"mod", modNodes},
-		{"pchar", printChar},
-		{"pstr", printStr},
-		{"rotl", rotateLeft},
-		{"rotr", rotateRight},
+		{"push", addNewNode},
+		{"pall", printEntireStack},
+		{"pint", printTopValue},
+		{"pop", removeTopNode},
+		{"nop", doNothing},
+		{"swap", swapStackNodes},
+		{"add", addStackNodes},
+		{"sub", subStackNodes},
+		{"div", divStackNodes},
+		{"mul", multiplyNodes},
+		{"mod", moduloNodes},
+		{"pchar", printAscii},
+		{"pstr", pStr},
+		{"rotl", rotaL},
+		{"rotr", rotaR},
 		{NULL, NULL}
 	};
 
@@ -112,7 +109,7 @@ void findFunction(char *op, char *value, int ln, int fmt)
 		i++;
 	}
 	if (flag == 1)
-		err(3, ln, op);
+		report_error(3, ln, op);
 }
 
 /**
@@ -137,11 +134,11 @@ void callFunction(opFunction func, char *op, char *val, int ln, int fmt)
 			flag = -1;
 		}
 		if (val == NULL)
-			err(5, ln);
+			report_error(5, ln);
 		while (val[i] != '\0')
 		{
 			if (isdigit(val[i]) == 0)
-				err(5, ln);
+				report_error(5, ln);
 			i++;
 		}
 		node = createNode(atoi(val) * flag);
